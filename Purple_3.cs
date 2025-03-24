@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab_6
+namespace Lab_7
 {
     public class Purple_3
     {
@@ -43,7 +45,8 @@ namespace Lab_6
                     return s;
                 }
             }
-            public Participant(string name, string surname) {
+            public Participant(string name, string surname)
+            {
                 _name = name;
                 _surname = surname;
                 _marks = new double[7];
@@ -124,11 +127,11 @@ namespace Lab_6
             {
                 if (array == null) return;
                 int n = array.Length;
-                for (int i = 0; i<n; i++)
+                for (int i = 0; i < n; i++)
                 {
-                    for (int j = 1; j<n; j++)
+                    for (int j = 1; j < n; j++)
                     {
-                        int s1 = array[j].Score, s2 = array[j-1].Score;
+                        int s1 = array[j].Score, s2 = array[j - 1].Score;
                         if (s1 < s2)
                         {
                             (array[j], array[j - 1]) = (array[j - 1], array[j]);
@@ -152,7 +155,7 @@ namespace Lab_6
                     }
                 }
             }
-            
+
             public void Print()
             {
                 Console.WriteLine("{0}, {1}, {2:f}, {3:f}, {4:f}", _name, _surname, Score, TopPlace, TotalMark);
@@ -166,6 +169,86 @@ namespace Lab_6
                     Console.Write("{0}, ", c);
                 }
                 Console.WriteLine();
+            }
+        }
+
+        public abstract class Skating
+        {
+            protected Participant[] _participants;
+            protected double[] _moods;
+            private int index = 0;
+
+            public Participant[] Participants
+            {
+                get
+                {
+                    if (_participants == null) return null;
+                    return _participants;
+                }
+            }
+            public double[] Moods
+            {
+                get
+                {
+                    if (_moods == null) return null;
+                    return _moods;
+                }
+            }
+            protected abstract void ModificateMood();
+            public Skating(double[] moods)
+            {
+                _moods = moods;
+            }
+            public void Evaluate(double[] marks)
+            {
+                if (index > _participants.Length) return;
+                double sum = 0;
+                for (int i = 0; i<marks.Length; i++)
+                {
+                    sum += marks[i] * _moods[i];
+                }
+                _participants[index++].Evaluate(sum);
+            }
+
+            public void Add(Participant jumper)
+            {
+                if (_participants == null) _participants = new Participant[0];
+                Array.Resize(ref _participants, _participants.Length + 1);
+                _participants[_participants.Length - 1] = jumper;
+            }
+            public void Add(Participant[] jumpers)
+            {
+                if (_participants == null) _participants = new Participant[0];
+                int n = _participants.Length;
+                Array.Resize(ref _participants, _participants.Length + jumpers.Length);
+                for (int i = n; i < _participants.Length; i++)
+                {
+                    _participants[i] = jumpers[i - n];
+                }
+            }
+        }
+        public class FigureSkating : Skating
+        {
+            public FigureSkating(double[] moods) : base(moods) { }
+            protected override void ModificateMood()
+            {
+                if (_moods == null) return;
+                for (int i = 0; i<_moods.Length; i++)
+                {
+                    _moods[i] += _moods[i] / 10;
+                }
+            }
+        }
+        public class IceSkating : Skating
+        {
+            public IceSkating(double[] moods) : base(moods) { }
+            protected override void ModificateMood()
+            {
+                if (_moods == null) return;
+                for (int i = 0; i < _moods.Length; i++)
+                {
+                    _moods[i] += _moods[i] / (i + 1);
+                }
             }
         }
     }

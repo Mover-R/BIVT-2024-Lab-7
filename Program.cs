@@ -1,4 +1,4 @@
-﻿using Lab_6;
+﻿using Lab_7;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace BIVT_2024_Lab_6
+namespace BIVT_2024_Lab_7
 {
     internal class Program
     {
@@ -178,7 +178,7 @@ namespace BIVT_2024_Lab_6
                 {
                     marks[j] = marksTask_2[i, j];
                 }
-                part.Jump(distancesTask_2[i], marks);
+                part.Jump(distancesTask_2[i], marks, 100000);
                 participants[i] = part;
             }
             Purple_2.Participant.Sort(participants);

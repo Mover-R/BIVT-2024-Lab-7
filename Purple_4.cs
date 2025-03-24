@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Lab_6
+namespace Lab_7
 {
     public class Purple_4
     {
-        public struct Sportsman
+        public class Sportsman
         {
             private string _name, _surname;
             private double _time;
@@ -28,6 +29,20 @@ namespace Lab_6
             {
                 if (_time == 0) _time = time;
             }
+            public void Sort(Sportsman[] sp)
+            {
+                int n = sp.Length;
+                for (int i = 0; i<n; i++)
+                {
+                    for (int j = 1; j < n - i; j++)
+                    {
+                        if (sp[j - 1].Time > sp[j].Time)
+                        {
+                            (sp[j - 1], sp[j]) = (sp[j], sp[j - 1]);
+                        }
+                    }
+                }
+            }
 
             public void Print()
             {
@@ -35,7 +50,18 @@ namespace Lab_6
             }
         }
 
-        public struct Group
+        public class SkiMan : Sportsman
+        {
+            public SkiMan(string name, string surname, double time) : base(name, surname) { Run(time); }
+            public SkiMan(string name, string surname) : base(name, surname) { }
+        }
+        public class SkiWoman : Sportsman
+        {
+            public SkiWoman(string name, string surname, double time) : base(name, surname) { Run(time); }
+            public SkiWoman(string name, string surname) : base(name, surname) { }
+        }
+
+        public class Group
         {
             private string _name;
             private Sportsman[] _sportsmen;
@@ -81,6 +107,36 @@ namespace Lab_6
                 int l = _sportsmen.Length;
                 this.Add(g.Sportsmen);
             }
+            // void Remove(string name)
+
+            public void Remove(string name)
+            {
+                int cnt = 0;
+                int n  = _sportsmen.Length;
+
+                for (int i = 0; i < n; i++){
+                    if (_sportsmen[i].Name == name)
+                    {
+                        cnt++;
+                    }
+                }
+
+                Sportsman[] s = new Sportsman[n - cnt];
+
+                cnt = 0;
+                for (int i =0; i<n; i++)
+                {
+                    if (_sportsmen[i].Name == name)
+                    {
+                        continue;
+                    }
+
+                    s[cnt++] = _sportsmen[i];
+                }
+
+                _sportsmen = s;
+            }
+
             public void Sort()
             {
                 int n = _sportsmen.Length;
@@ -133,6 +189,33 @@ namespace Lab_6
                     Console.Write("{0} ", _sportsmen[i]);
                 }
                 Console.WriteLine();
+            }
+            public void Split(out Sportsman[] men, out Sportsman[] women)
+            {
+                men = new Sportsman[0];
+                women = new Sportsman[0];
+                for (int i = 0; i<_sportsmen.Length; i++)
+                {
+                    if (_sportsmen[i] is SkiMan)
+                    {
+                        Array.Resize(ref men, men.Length + 1);
+                        men[men.Length - 1] = _sportsmen[i];
+                    } else
+                    {
+                        Array.Resize(ref men, men.Length + 1);
+                        men[men.Length - 1] = _sportsmen[i];
+                    }
+                }
+            }
+            public void Shuffle()
+            {
+                Sort();
+                int n = _sportsmen.Length;
+                Sportsman[] men, women;
+                Split(out men, out women);
+                Group g1 = new Group("men"), g2 = new Group("women");
+                Group g = Merge(g1, g2);
+                _sportsmen = g.Sportsmen;
             }
         }
     }

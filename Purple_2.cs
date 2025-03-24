@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
-namespace Lab_6
+namespace Lab_7
 {
     public class Purple_2
     {
@@ -13,12 +16,14 @@ namespace Lab_6
             private string _name, _surname;
             private int _distance;
             private int[] _marks;
+            private bool _flag;
             public Participant(string name, string surname)
             {
                 _name = name;
                 _surname = surname;
                 _distance = 0;
                 _marks = new int[5];
+                _flag = false;
             }
             public string Name { get { return _name; } }
             public string Surname { get { return _surname; } }
@@ -45,17 +50,22 @@ namespace Lab_6
                     sum -= mx; sum -= mn;
 
                     sum += 60 + (_distance - 120) * 2;
+                    if (_flag) sum += 60;
 
                     return Math.Max(sum, 0);
                 }
             }
-            public void Jump(int distance, int[] marks)
+            public void Jump(int distance, int[] marks, int target)
             {
                 if (_marks == null || marks == null || marks.Length != 5) return;
                 _distance = distance;
                 for (int i = 0; i<5; i++)
                 {
                     _marks[i] = marks[i];
+                }
+                if (distance >= target)
+                {
+                    _flag = true;
                 }
             }
             public static void Sort(Participant[] array)
@@ -78,6 +88,65 @@ namespace Lab_6
                 if (_surname == "" || _name == "") return;
                 Console.WriteLine("{0} {1} {2}", _name, _surname, this.Result);
             }
+        }
+        public abstract class SkiJumping
+        {
+            private string _nameCompetition;
+            private int _distanceNorm;
+            private Participant[] _participants;
+            private int index = 0;
+            public string Name => _nameCompetition;
+            public int Standard => _distanceNorm;
+            public Participant[] Participants 
+            {
+                get
+                {
+                    return _participants;
+                }
+            }
+
+            public SkiJumping(string name, int norm)
+            {
+                _nameCompetition = name;
+                _distanceNorm = norm;
+                _participants = new Participant[0];
+            }
+            public void Add(Participant jumper)
+            {
+                if (_participants == null) _participants = new Participant[0];
+                Array.Resize(ref _participants, _participants.Length + 1);
+                _participants[_participants.Length - 1] = jumper;
+            }
+            public void Add(Participant[] jumpers)
+            {
+                if (_participants == null) _participants = new Participant[0];
+                int n = _participants.Length;
+                Array.Resize(ref _participants, _participants.Length + jumpers.Length);
+                for (int i = n; i < _participants.Length; i++)
+                {
+                    _participants[i] = jumpers[i - n];
+                }
+            }
+            public void Jump(int distance, int[] marks)
+            {
+                if (_participants == null) _participants = new Participant[0];
+                if (index >= _participants.Length) return;
+                _participants[index++].Jump(distance, marks, _distanceNorm);
+            }
+            public void Print()
+            {
+                Console.WriteLine($"Name: {_nameCompetition}, Standart: {_distanceNorm}");
+                foreach(Participant participant in _participants) participant.Print();
+            }
+
+        }
+        public class JuniorSkiJumping : SkiJumping
+        {
+            public JuniorSkiJumping(string name, int norm) : base("100м", 100) { }
+        }
+        public class ProSkiJumping : SkiJumping
+        {
+            public ProSkiJumping() : base("150м", 150) { }
         }
     }
 }

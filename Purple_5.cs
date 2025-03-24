@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using static Lab_6.Purple_5;
+using static Lab_7.Purple_5;
 
-namespace Lab_6
+namespace Lab_7
 {
     public class Purple_5
     {
@@ -120,6 +121,69 @@ namespace Lab_6
                 }
             }
         }
+        public class Report
+        {
+            private Research[] _researches;
+            private static int _cnt = 0;
+            public Research[] Researches
+            {
+                get
+                {
+                    return _researches;
+                }
+            }
+            static Report()
+            {
+                _cnt = 1;
+            }
+            public Report()
+            {
+                _researches = new Research[0];
+            }
+            public Research MakeResearch()
+            {
+                DateTime timeNow = DateTime.Now;
 
+                string reseachName = $"No_{_cnt++}_{timeNow.Month:00}/{timeNow.Year % 100:00}";
+
+                if (_researches is null)
+                    _researches = new Research[0];
+
+                Array.Resize(ref _researches, _researches.Length + 1);
+
+                Research newResearch = new Research(reseachName);
+
+                _researches[_researches.Length - 1] = newResearch;
+
+                return newResearch;
+            }
+            public (string, double)[] GetGeneralReport(int question)
+            {
+
+                if (question < 1 || question > 3 || _researches == null)
+                    return Array.Empty<(string, double)>();
+
+                var allResponses = _researches
+                    .SelectMany(r => r.Responses)
+                    .Select(r => question switch
+                    {
+                        1 => r.Animal,
+                        2 => r.CharacterTrait,
+                        3 => r.Concept,
+                        _ => string.Empty
+                    })
+                    .Where(r => !string.IsNullOrEmpty(r))
+                    .ToArray();
+
+                if (allResponses.Length == 0)
+                    return Array.Empty<(string, double)>();
+
+                return allResponses
+                    .GroupBy(r => r)
+                    .Select(g => (g.Key, Math.Round(100.0 * g.Count() / allResponses.Length, 2)))
+                    .ToArray();
+
+            }
+        }
     }
 }

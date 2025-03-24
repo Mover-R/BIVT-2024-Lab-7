@@ -6,11 +6,11 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab_6
+namespace Lab_7
 {
     public class Purple_1
     {
-        public struct Participant
+        public class Participant
         {
             private string _name, _surname;
             private double[] _coefs;
@@ -130,5 +130,77 @@ namespace Lab_6
             }
         }
 
+        public class Judge
+        {
+            private string _name;
+            private int[] _marks;
+            private int cnt = 0;
+
+            public string Name => _name;
+            public Judge(string name, int[] marks)
+            {
+                _name = name;
+                _marks = marks;
+            }
+            public int CreateMark()
+            {
+                return _marks[(cnt++) % _marks.Length];
+            }
+
+            public void Print()
+            {
+                Console.WriteLine(_name);
+                foreach (int i in _marks)
+                {
+                    Console.Write($"{i}, ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public class Competition
+        {
+            private Judge[] _judges;
+            private Participant[] _participants;
+
+            public Judge[] Judges => _judges;
+            public Participant[] Participants => _participants;
+
+            public Competition(Judge[] judges)
+            {
+                _judges = judges;
+                _participants = new Participant[0];
+            }
+
+            public void Evaluate(Participant jumper)
+            {
+                int[] marks = new int[_judges.Length];
+                for (int i = 0; i < marks.Length; i++)
+                {
+                    marks[i] = _judges[i].CreateMark();
+                }
+            }
+            
+            public void Add(Participant jumper)
+            {
+                Evaluate(jumper);
+                Array.Resize(ref _participants, _participants.Length + 1);
+                _participants[_participants.Length - 1] = jumper;
+            }
+            public void Add(Participant[] jumpers)
+            {
+                for (int i = 0; i<jumpers.Length; i++) Evaluate(jumpers[i]);
+                int n = _participants.Length;
+                Array.Resize(ref _participants, _participants.Length + jumpers.Length);
+                for (int i = n; i<_participants.Length; i++)
+                {
+                    _participants[i] = jumpers[i - n];
+                }
+            }
+            public void Sort()
+            {
+                Participant.Sort(_participants);
+            }
+        }
     }
 }
