@@ -191,13 +191,16 @@ namespace Lab_7
                 get
                 {
                     if (_moods == null) return null;
-                    return _moods;
+                    return (double[])_moods.Clone();
                 }
             }
             protected abstract void ModificateMood();
             public Skating(double[] moods)
             {
-                _moods = moods;
+                if (moods == null) return;
+                _moods = new double[7];
+                Array.Copy(moods, _moods, 7);
+                ModificateMood();
             }
             public void Evaluate(double[] marks)
             {
@@ -235,7 +238,7 @@ namespace Lab_7
                 if (_moods == null) return;
                 for (int i = 0; i<_moods.Length; i++)
                 {
-                    _moods[i] += _moods[i] / 10;
+                    _moods[i] += _moods[i] / 10.0;
                 }
             }
         }
@@ -247,7 +250,7 @@ namespace Lab_7
                 if (_moods == null) return;
                 for (int i = 0; i < _moods.Length; i++)
                 {
-                    _moods[i] += _moods[i] / (i + 1);
+                    _moods[i] += _moods[i] * ((i + 1) / 100.0 + 1);
                 }
             }
         }

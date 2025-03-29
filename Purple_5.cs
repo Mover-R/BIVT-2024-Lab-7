@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -124,7 +125,7 @@ namespace Lab_7
         public class Report
         {
             private Research[] _researches;
-            private static int _cnt = 0;
+            private static int _cnt;
             public Research[] Researches
             {
                 get
@@ -146,8 +147,7 @@ namespace Lab_7
 
                 string reseachName = $"No_{_cnt++}_{timeNow.Month:00}/{timeNow.Year % 100:00}";
 
-                if (_researches is null)
-                    _researches = new Research[0];
+                if (_researches is null) _researches = new Research[0];
 
                 Array.Resize(ref _researches, _researches.Length + 1);
 
@@ -161,28 +161,32 @@ namespace Lab_7
             {
 
                 if (question < 1 || question > 3 || _researches == null)
-                    return Array.Empty<(string, double)>();
+                    return null;
 
-                var allResponses = _researches
+                var AllResponses = _researches
+                    .Where(r => r.Responses != null)
                     .SelectMany(r => r.Responses)
                     .Select(r => question switch
                     {
                         1 => r.Animal,
                         2 => r.CharacterTrait,
                         3 => r.Concept,
-                        _ => string.Empty
+                        _ => null,
                     })
-                    .Where(r => !string.IsNullOrEmpty(r))
+                    .Where(r => r != null)
                     .ToArray();
 
-                if (allResponses.Length == 0)
-                    return Array.Empty<(string, double)>();
+                if (AllResponses.Length == 0) return null;
 
-                return allResponses
+                var report = AllResponses
                     .GroupBy(r => r)
-                    .Select(g => (g.Key, Math.Round(100.0 * g.Count() / allResponses.Length, 2)))
+                    .OrderByDescending(r => r.Count())
+                    .Select(g => (
+                        r: g.Key,
+                        persntage: ((g.Count() * 100.0)/AllResponses.Length)
+                    ))
                     .ToArray();
-
+                return report;
             }
         }
     }

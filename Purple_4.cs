@@ -29,7 +29,7 @@ namespace Lab_7
             {
                 if (_time == 0) _time = time;
             }
-            public void Sort(Sportsman[] sp)
+            public static void Sort(Sportsman[] sp)
             {
                 int n = sp.Length;
                 for (int i = 0; i<n; i++)
@@ -202,8 +202,8 @@ namespace Lab_7
                         men[men.Length - 1] = _sportsmen[i];
                     } else
                     {
-                        Array.Resize(ref men, men.Length + 1);
-                        men[men.Length - 1] = _sportsmen[i];
+                        Array.Resize(ref women, women.Length + 1);
+                        women[women.Length - 1] = _sportsmen[i];
                     }
                 }
             }

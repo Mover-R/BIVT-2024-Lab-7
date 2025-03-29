@@ -14,7 +14,7 @@ namespace Lab_7
         public struct Participant
         {
             private string _name, _surname;
-            private int _distance;
+            private int _distance, _result;
             private int[] _marks;
             private bool _flag;
             public Participant(string name, string surname)
@@ -23,7 +23,7 @@ namespace Lab_7
                 _surname = surname;
                 _distance = 0;
                 _marks = new int[5];
-                _flag = false;
+                _result = 0;
             }
             public string Name { get { return _name; } }
             public string Surname { get { return _surname; } }
@@ -38,21 +38,7 @@ namespace Lab_7
             {
                 get
                 {
-                    if (_marks == null) return 0;
-                    int mn = 1000000, mx = -100000000;
-                    int sum = 0;
-                    for (int jump = 0; jump < 5; jump++)
-                    {
-                        mn = Math.Min(mn, _marks[jump]);
-                        mx = Math.Max(mx, _marks[jump]);
-                        sum += _marks[jump];
-                    }
-                    sum -= mx; sum -= mn;
-
-                    sum += 60 + (_distance - 120) * 2;
-                    if (_flag) sum += 60;
-
-                    return Math.Max(sum, 0);
+                    return _result;
                 }
             }
             public void Jump(int distance, int[] marks, int target)
@@ -63,10 +49,20 @@ namespace Lab_7
                 {
                     _marks[i] = marks[i];
                 }
-                if (distance >= target)
+
+                int mn = 1000000, mx = -100000000;
+                int sum = 0;
+                for (int jump = 0; jump < 5; jump++)
                 {
-                    _flag = true;
+                    mn = Math.Min(mn, _marks[jump]);
+                    mx = Math.Max(mx, _marks[jump]);
+                    sum += _marks[jump];
                 }
+                sum -= mx; sum -= mn;
+
+                sum += 60 + (_distance - target) * 2;
+
+                _result = Math.Max(0, _result);
             }
             public static void Sort(Participant[] array)
             {
@@ -101,6 +97,7 @@ namespace Lab_7
             {
                 get
                 {
+                    if (_participants == null) return null;
                     return _participants;
                 }
             }
@@ -142,11 +139,11 @@ namespace Lab_7
         }
         public class JuniorSkiJumping : SkiJumping
         {
-            public JuniorSkiJumping(string name, int norm) : base("100м", 100) { }
+            public JuniorSkiJumping() : base("100m", 100) { }
         }
         public class ProSkiJumping : SkiJumping
         {
-            public ProSkiJumping() : base("150м", 150) { }
+            public ProSkiJumping() : base("150m", 150) { }
         }
     }
 }
