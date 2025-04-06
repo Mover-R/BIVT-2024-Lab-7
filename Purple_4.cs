@@ -14,7 +14,7 @@ namespace Lab_7
         public class Sportsman
         {
             private string _name, _surname;
-            private double _time;
+            private double _time = 0.0;
             public string Name => _name;
             public string Surname => _surname;
             public double Time => _time;
@@ -22,7 +22,6 @@ namespace Lab_7
             {
                 _name = name;
                 _surname = surname;
-                _time = 0;
             }
 
             public void Run(double time)
@@ -72,7 +71,7 @@ namespace Lab_7
                 get
                 {
                     if (_sportsmen == null) return null;
-                    return _sportsmen;
+                    return (Sportsman[])_sportsmen.Clone();
                 }
             }
             public Group(string name)
@@ -216,7 +215,23 @@ namespace Lab_7
                 Split(out men, out women);
                 Group g1 = new Group("men"), g2 = new Group("women");
                 g1.Add(men); g2.Add(women);
-                Group g = Merge(g1, g2);
+                Group g = new Group("Финалитсты");
+                Sportsman[] result = new Sportsman[men.Length + women.Length];
+
+                int menIndex = 0, womenIndex = 0;
+                for (int i = 0; i < men.Length + women.Length; i++)
+                {
+                    if ((i % 2 == 0 && menIndex < men.Length) || womenIndex >= women.Length)
+                    {
+                        result[i] = men[menIndex++];
+                    }
+                    else
+                    {
+                        result[i] = women[womenIndex++];
+                    }
+                }
+
+                g.Add(result);
                 _sportsmen = g.Sportsmen;
             }
         }

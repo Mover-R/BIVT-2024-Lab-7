@@ -15,7 +15,7 @@ namespace Lab_7
             private string _name, _surname;
             private double[] _marks;
             private int[] _places;
-            private int _indexJudge;
+            private int _indexJudge = 0;
 
             public string Name => _name;
             public string Surname => _surname;
@@ -197,10 +197,9 @@ namespace Lab_7
             protected abstract void ModificateMood();
             public Skating(double[] moods)
             {
-                if (moods == null) return;
                 _moods = new double[7];
                 _participants = new Participant[0];
-                Array.Copy(moods, _moods, 7);
+                if (moods != null) Array.Copy(moods, _moods, 7);
                 ModificateMood();
             }
             public void Evaluate(double[] marks)
@@ -230,6 +229,15 @@ namespace Lab_7
                     _participants[i] = jumpers[i - n];
                 }
             }
+
+            public void Print()
+            {
+                Console.WriteLine("Participants:");
+                foreach (Participant participant in _participants) participant.Print();
+                Console.WriteLine("Moods:");
+                foreach(double i in _moods) Console.Write($"{i} ");
+                Console.WriteLine();
+            }
         }
         public class FigureSkating : Skating
         {
@@ -239,7 +247,7 @@ namespace Lab_7
                 if (_moods == null) return;
                 for (int i = 0; i<_moods.Length; i++)
                 {
-                    _moods[i] += _moods[i] / 10.0;
+                    _moods[i] += (i + 1) / 10.0;
                 }
             }
         }
@@ -251,7 +259,7 @@ namespace Lab_7
                 if (_moods == null) return;
                 for (int i = 0; i < _moods.Length; i++)
                 {
-                    _moods[i] += _moods[i] * ((i + 1) / 100.0 + 1);
+                    _moods[i] = _moods[i] * ((i + 1) / 100.0 + 1);
                 }
             }
         }

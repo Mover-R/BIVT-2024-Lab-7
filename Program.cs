@@ -15,9 +15,10 @@ namespace BIVT_2024_Lab_7
             //Test_Purple_1();
             //Test_Purple_2();
             //Test_Purple_3();
-            Test_Purple_4_1();
+            //Test_Purple_4_1();
             //Test_Purple_4_2();
             //Test_Purple_5();
+            Test();
         }
         static void Test_Purple_1()
         {
@@ -449,6 +450,25 @@ namespace BIVT_2024_Lab_7
                 Console.WriteLine(res3[i]);
             }
             Console.WriteLine();
+        }
+
+        static void Test()
+        {
+            double[] moods1 = new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.1, 7.2 };
+            double[] moods2 = new double[] { 0.1, 0.2, 0.3, 0.4, 0.5, 1.6, 3.2 };
+
+            Purple_3.Participant p1 = new Purple_3.Participant("Pypa", "Lypa");
+            Purple_3.Participant p2 = new Purple_3.Participant("Andrey", "Barmaley");
+            Purple_3.Participant p3 = new Purple_3.Participant("Nick", "Vujicic");
+            Purple_3.Participant p4 = new Purple_3.Participant("Bebra", "52-Bratyxa");
+
+            Purple_3.FigureSkating figSkating = new Purple_3.FigureSkating(moods1);
+            figSkating.Add(p1); figSkating.Add(p2);
+            figSkating.Print();
+
+            Purple_3.IceSkating iceSkating = new Purple_3.IceSkating(moods2);
+            iceSkating.Add(p3); iceSkating.Add(p4);
+            iceSkating.Print();
         }
     }
 }

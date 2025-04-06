@@ -159,11 +159,9 @@ namespace Lab_7
             }
             public (string, double)[] GetGeneralReport(int question)
             {
-
                 if (question < 1 || question > 3 || _researches == null)
-                    return null;
-
-                var AllResponses = _researches
+                    return Array.Empty<(string, double)>();
+                var allResponses = _researches
                     .Where(r => r.Responses != null)
                     .SelectMany(r => r.Responses)
                     .Select(r => question switch
@@ -171,22 +169,20 @@ namespace Lab_7
                         1 => r.Animal,
                         2 => r.CharacterTrait,
                         3 => r.Concept,
-                        _ => null,
+                        _ => null
                     })
-                    .Where(r => r != null)
+                    .Where(r => !string.IsNullOrEmpty(r))
                     .ToArray();
-
-                if (AllResponses.Length == 0) return null;
-
-                var report = AllResponses
+                if (allResponses.Length == 0)
+                    return Array.Empty<(string, double)>();
+                return allResponses
                     .GroupBy(r => r)
-                    .OrderByDescending(r => r.Count())
+                    .OrderByDescending(g => g.Count())
                     .Select(g => (
-                        r: g.Key,
-                        persntage: ((g.Count() * 100.0)/AllResponses.Length)
+                        response: g.Key,
+                        percentage: Math.Round(g.Count() * 100.0 / allResponses.Length, 2)
                     ))
                     .ToArray();
-                return report;
             }
         }
     }
