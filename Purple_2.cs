@@ -50,7 +50,7 @@ namespace Lab_7
                     _marks[i] = marks[i];
                 }
 
-                int mn = 1000000, mx = -100000000;
+                int mn = 100000000, mx = -100000000;
                 int sum = 0;
                 for (int jump = 0; jump < 5; jump++)
                 {
@@ -62,7 +62,7 @@ namespace Lab_7
 
                 sum += 60 + (_distance - target) * 2;
 
-                _result = Math.Max(0, _result);
+                _result = Math.Max(0, sum);
             }
             public static void Sort(Participant[] array)
             {

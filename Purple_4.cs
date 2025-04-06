@@ -71,6 +71,7 @@ namespace Lab_7
             {
                 get
                 {
+                    if (_sportsmen == null) return null;
                     return _sportsmen;
                 }
             }
@@ -214,6 +215,7 @@ namespace Lab_7
                 Sportsman[] men, women;
                 Split(out men, out women);
                 Group g1 = new Group("men"), g2 = new Group("women");
+                g1.Add(men); g2.Add(women);
                 Group g = Merge(g1, g2);
                 _sportsmen = g.Sportsmen;
             }

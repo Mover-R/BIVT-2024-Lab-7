@@ -199,6 +199,7 @@ namespace Lab_7
             {
                 if (moods == null) return;
                 _moods = new double[7];
+                _participants = new Participant[0];
                 Array.Copy(moods, _moods, 7);
                 ModificateMood();
             }

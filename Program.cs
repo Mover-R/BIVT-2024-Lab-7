@@ -15,9 +15,9 @@ namespace BIVT_2024_Lab_7
             //Test_Purple_1();
             //Test_Purple_2();
             //Test_Purple_3();
-            //Test_Purple_4_1();
+            Test_Purple_4_1();
             //Test_Purple_4_2();
-            Test_Purple_5();
+            //Test_Purple_5();
         }
         static void Test_Purple_1()
         {
@@ -178,10 +178,12 @@ namespace BIVT_2024_Lab_7
                 {
                     marks[j] = marksTask_2[i, j];
                 }
-                part.Jump(distancesTask_2[i], marks, 100000);
+                part.Jump(distancesTask_2[i], marks, 0);
+                part.Print();
                 participants[i] = part;
             }
             Purple_2.Participant.Sort(participants);
+            Console.WriteLine();
 
             for (int i = 0; i < participants.Length; i++)
                 participants[i].Print();
