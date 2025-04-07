@@ -160,7 +160,7 @@ namespace Lab_7
             public (string, double)[] GetGeneralReport(int question)
             {
                 if (question < 1 || question > 3 || _researches == null)
-                    return Array.Empty<(string, double)>();
+                    return null;
                 var allResponses = _researches
                     .Where(r => r.Responses != null)
                     .SelectMany(r => r.Responses)
@@ -174,7 +174,7 @@ namespace Lab_7
                     .Where(r => !string.IsNullOrEmpty(r))
                     .ToArray();
                 if (allResponses.Length == 0)
-                    return Array.Empty<(string, double)>();
+                    return null;
                 return allResponses
                     .GroupBy(r => r)
                     .OrderByDescending(g => g.Count())

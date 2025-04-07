@@ -115,9 +115,10 @@ namespace Lab_7
                             i--;
                         }
                     }
+                    int p = 1;
                     for (int place = 0; place < participants.Length; place++)
                     {
-                        if (participants[place]._places != null) participants[place]._places[judge] = place + 1;
+                        if (participants[place]._places != null) participants[place]._places[judge] = p++;
                     }
 
                 }
@@ -230,6 +231,7 @@ namespace Lab_7
                 }
             }
 
+            /*
             public void Print()
             {
                 Console.WriteLine("Participants:");
@@ -237,7 +239,7 @@ namespace Lab_7
                 Console.WriteLine("Moods:");
                 foreach(double i in _moods) Console.Write($"{i} ");
                 Console.WriteLine();
-            }
+            }*/
         }
         public class FigureSkating : Skating
         {

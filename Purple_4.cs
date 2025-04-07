@@ -109,6 +109,7 @@ namespace Lab_7
             }
             // void Remove(string name)
 
+            /*
             public void Remove(string name)
             {
                 int cnt = 0;
@@ -135,7 +136,7 @@ namespace Lab_7
                 }
 
                 _sportsmen = s;
-            }
+            }*/
 
             public void Sort()
             {
