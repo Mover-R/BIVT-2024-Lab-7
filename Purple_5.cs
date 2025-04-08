@@ -181,6 +181,7 @@ namespace Lab_7
                         percentage: Math.Round(g.Count() * 100.0 / allResponses.Length, 2)
                     ))
                     .ToArray();
+                // its soooo cool 
             }
         }
     }
