@@ -103,7 +103,7 @@ namespace Lab_7
                             participants[i - 1] = tmp;
                             i--;
                         }
-                        else if (participants[i].Marks[judge] < participants[i - 1].Marks[judge])
+                        else if (participants[i].Marks[judge] <= participants[i - 1].Marks[judge])
                         {
                             i = j++;
                         }
@@ -205,7 +205,7 @@ namespace Lab_7
             }
             public void Evaluate(double[] marks)
             {
-                if (index > _participants.Length) return;
+                if (index >= _participants.Length) return;
                 double sum = 0;
                 for (int i = 0; i<marks.Length; i++)
                 {

@@ -219,19 +219,29 @@ namespace Lab_7
                 Group g = new Group("Финалитсты");
                 Sportsman[] result = new Sportsman[men.Length + women.Length];
 
-                int menIndex = 0, womenIndex = 0;
-                for (int i = 0; i < men.Length + women.Length; i++)
+                int mind = 0, wind = 0, ind = 0;
+                bool isManFirst = men[0].Time <= women[0].Time;
+                while (mind < men.Length && wind < women.Length)
                 {
-                    if ((i % 2 == 0 && menIndex < men.Length) || womenIndex >= women.Length)
+                    if (isManFirst)
                     {
-                        result[i] = men[menIndex++];
+                        _sportsmen[ind++] = men[mind++];
+                        _sportsmen[ind++] = women[wind++];
                     }
                     else
                     {
-                        result[i] = women[womenIndex++];
+                        _sportsmen[ind++] = women[wind++];
+                        _sportsmen[ind++] = men[mind++];
                     }
                 }
-
+                while (mind < men.Length)
+                {
+                    _sportsmen[ind++] = men[mind++];
+                }
+                while (wind < women.Length)
+                {
+                    _sportsmen[ind++] = women[wind++];
+                }
                 g.Add(result);
                 _sportsmen = g.Sportsmen;
             }

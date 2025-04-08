@@ -173,8 +173,6 @@ namespace Lab_7
                     })
                     .Where(r => !string.IsNullOrEmpty(r))
                     .ToArray();
-                if (allResponses.Length == 0)
-                    return null;
                 return allResponses
                     .GroupBy(r => r)
                     .OrderByDescending(g => g.Count())
