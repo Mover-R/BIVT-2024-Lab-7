@@ -211,39 +211,34 @@ namespace Lab_7
             public void Shuffle()
             {
                 Sort();
-                int n = _sportsmen.Length;
                 Sportsman[] men, women;
                 Split(out men, out women);
-                Group g1 = new Group("men"), g2 = new Group("women");
-                g1.Add(men); g2.Add(women);
-                Group g = new Group("Финалитсты");
                 Sportsman[] result = new Sportsman[men.Length + women.Length];
 
                 int mind = 0, wind = 0, ind = 0;
-                bool isManFirst = men[0].Time <= women[0].Time;
+                bool ManFirst = men[0].Time <= women[0].Time;
                 while (mind < men.Length && wind < women.Length)
                 {
-                    if (isManFirst)
+                    if (ManFirst)
                     {
-                        _sportsmen[ind++] = men[mind++];
-                        _sportsmen[ind++] = women[wind++];
+                        result[ind++] = men[mind++];
+                        result[ind++] = women[wind++];
                     }
                     else
                     {
-                        _sportsmen[ind++] = women[wind++];
-                        _sportsmen[ind++] = men[mind++];
+                        result[ind++] = women[wind++];
+                        result[ind++] = men[mind++];
                     }
                 }
                 while (mind < men.Length)
                 {
-                    _sportsmen[ind++] = men[mind++];
+                    result[ind++] = men[mind++];
                 }
                 while (wind < women.Length)
                 {
-                    _sportsmen[ind++] = women[wind++];
+                    result[ind++] = women[wind++];
                 }
-                g.Add(result);
-                _sportsmen = g.Sportsmen;
+                _sportsmen = result;
             }
         }
     }

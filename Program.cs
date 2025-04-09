@@ -464,11 +464,11 @@ namespace BIVT_2024_Lab_7
 
             Purple_3.FigureSkating figSkating = new Purple_3.FigureSkating(moods1);
             figSkating.Add(p1); figSkating.Add(p2);
-            figSkating.Print();
+            //figSkating.Print();
 
             Purple_3.IceSkating iceSkating = new Purple_3.IceSkating(moods2);
             iceSkating.Add(p3); iceSkating.Add(p4);
-            iceSkating.Print();
+            //iceSkating.Print();
         }
     }
 }
