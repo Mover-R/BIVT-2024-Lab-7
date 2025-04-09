@@ -238,6 +238,7 @@ namespace Lab_7
                 {
                     result[ind++] = women[wind++];
                 }
+                // Перепутал
                 _sportsmen = result;
             }
         }
