@@ -71,7 +71,7 @@ namespace Lab_7
                 get
                 {
                     if (_sportsmen == null) return null;
-                    return (Sportsman[])_sportsmen.Clone();
+                    return _sportsmen;//(Sportsman[])_sportsmen.Clone();
                 }
             }
             public Group(string name)
